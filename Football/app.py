@@ -2,21 +2,29 @@ import streamlit as st
 import pickle
 import json
 import numpy as np
+import path
+
+# Path to models
+path_to_model_goals = '../models/goals_model.pkl'
+path_to_model_yellow = '../models/yellow_cards_model.pkl'
+path_to_model_market = '../models/market_value_model.pkl'
+path_to_model_assist = '../models/assist_model.pkl'
+path_to_model_injury = '../models/injury_model.pkl'
 
 # Load the models
-with open('goals_model.pkl', 'rb') as file:
+with open(path_to_model_goals, 'rb') as file:
     goals_model = pickle.load(file)
 
-with open('yellow_cards_model.pkl', 'rb') as file:
+with open(path_to_model_yellow, 'rb') as file:
     yellow_cards_model = pickle.load(file)
 
-with open('market_value_model.pkl', 'rb') as file:
+with open(path_to_model_market, 'rb') as file:
     market_value_model = pickle.load(file)
 
-with open('assist_model.pkl', 'rb') as file:
+with open(path_to_model_assist, 'rb') as file:
     assist_model = pickle.load(file)
 
-with open('injury_model.pkl', 'rb') as file:
+with open(path_to_model_injury, 'rb') as file:
     injury_model = pickle.load(file)
 
 # Load the JSON file for categorical feature conversion
