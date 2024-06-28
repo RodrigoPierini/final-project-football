@@ -25,6 +25,9 @@ path_to_scaler_yellow = code_dir / 'yellow_cards_scaler.pkl'
 path_to_scaler_market = code_dir / 'market_value_scaler.pkl'
 path_to_scaler_assist = code_dir / 'assist_scaler.pkl'
 
+# Path to mapping
+path_to_mapping = code_dir / 'categorical_mapping.json'
+
 # Load the models
 with open(path_to_model_goals, 'rb') as file:
     goals_model = pickle.load(file)
@@ -55,7 +58,7 @@ with open(path_to_scaler_assist, 'rb') as file:
     assist_scaler = pickle.load(file)
 
 # Load the JSON file for categorical feature conversion
-with open('categorical_mapping.json', 'r') as file:
+with open(path_to_mapping, 'r') as file:
     categorical_mapping = json.load(file)
 
 def convert_categorical_features(features, mapping):
