@@ -19,6 +19,12 @@ path_to_model_market = code_dir / '../models/market_value_model.pkl'
 path_to_model_assist = code_dir / '../models/assist_model.pkl'
 path_to_model_injury = code_dir / '../models/injury_model.pkl'
 
+# Path to scalers
+path_to_scaler_goals = code_dir / 'goals_scaler.pkl'
+path_to_scaler_yellow = code_dir / 'yellow_cards_scaler.pkl'
+path_to_scaler_market = code_dir / 'market_value_scaler.pkl'
+path_to_scaler_assist = code_dir / 'assist_scaler.pkl'
+
 # Load the models
 with open(path_to_model_goals, 'rb') as file:
     goals_model = pickle.load(file)
@@ -36,16 +42,16 @@ with open(path_to_model_injury, 'rb') as file:
     injury_model = pickle.load(file)
 
 # Load the scalers
-with open('goals_scaler.pkl', 'rb') as file:
+with open(path_to_scaler_goals, 'rb') as file:
     goals_scaler = pickle.load(file)
 
-with open('yellow_cards_scaler.pkl', 'rb') as file:
+with open(path_to_scaler_yellow, 'rb') as file:
     yellow_cards_scaler = pickle.load(file)
 
-with open('market_value_scaler.pkl', 'rb') as file:
+with open(path_to_scaler_market, 'rb') as file:
     market_value_scaler = pickle.load(file)
 
-with open('assist_scaler.pkl', 'rb') as file:
+with open(path_to_scaler_assist, 'rb') as file:
     assist_scaler = pickle.load(file)
 
 # Load the JSON file for categorical feature conversion
