@@ -10,11 +10,14 @@ dir = path.Path(__file__).abspath()
 sys.path.append(dir.parent.parent)
 
 # Path to models
-path_to_model_goals = '../models/goals_model.pkl'
-path_to_model_yellow = '../models/yellow_cards_model.pkl'
-path_to_model_market = '../models/market_value_model.pkl'
-path_to_model_assist = '../models/assist_model.pkl'
-path_to_model_injury = '../models/injury_model.pkl'
+import pathlib
+code_dir = pathlib.Path(__file__).parent.resolve()
+
+path_to_model_goals = code_dir / '../models/goals_model.pkl'
+path_to_model_yellow = code_dir / '../models/yellow_cards_model.pkl'
+path_to_model_market = code_dir / '../models/market_value_model.pkl'
+path_to_model_assist = code_dir / '../models/assist_model.pkl'
+path_to_model_injury = code_dir / '../models/injury_model.pkl'
 
 # Load the models
 with open(path_to_model_goals, 'rb') as file:
