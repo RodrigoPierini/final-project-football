@@ -111,3 +111,6 @@ print(f'R2: {r2}')
 
 # Save the model
 pickle.dump(best_rf, open("yellow_cards_model.pkl", "wb"))
+
+# Save the scaler
+pickle.dump(scaler, open("yellow_cards_scaler.pkl", "wb"))

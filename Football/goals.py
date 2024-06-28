@@ -96,3 +96,6 @@ print(f'R2: {r2}')
 
 # Save the model
 pickle.dump(model, open("goals_model.pkl", "wb"))
+
+# Save the scaler
+pickle.dump(scaler, open("goals_scaler.pkl", "wb"))

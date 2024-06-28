@@ -103,3 +103,6 @@ print(f'R2: {r2}')
 
 # Save the model
 pickle.dump(model, open("market_value_model.pkl", "wb"))
+
+# Save the scaler
+pickle.dump(scaler, open("market_value_scaler.pkl", "wb"))

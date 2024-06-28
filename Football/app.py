@@ -3,6 +3,11 @@ import pickle
 import json
 import numpy as np
 import path
+import sys
+
+
+dir = path.Path(__file__).abspath()
+sys.path.append(dir.parent.parent)
 
 # Path to models
 path_to_model_goals = '../models/goals_model.pkl'
@@ -26,6 +31,19 @@ with open(path_to_model_assist, 'rb') as file:
 
 with open(path_to_model_injury, 'rb') as file:
     injury_model = pickle.load(file)
+
+# Load the scalers
+with open('goals_scaler.pkl', 'rb') as file:
+    goals_scaler = pickle.load(file)
+
+with open('yellow_cards_scaler.pkl', 'rb') as file:
+    yellow_cards_scaler = pickle.load(file)
+
+with open('market_value_scaler.pkl', 'rb') as file:
+    market_value_scaler = pickle.load(file)
+
+with open('assist_scaler.pkl', 'rb') as file:
+    assist_scaler = pickle.load(file)
 
 # Load the JSON file for categorical feature conversion
 with open('categorical_mapping.json', 'r') as file:
@@ -59,9 +77,11 @@ if prediction_type == "Goals Prediction⚽":
         'G_per_SoT': st.number_input('Goals per Shot on Target', min_value=0.0),
         'PKatt': st.number_input('Penalty Kicks Attempted', min_value=0.0)
     }
-    features = convert_categorical_features(features, categorical_mapping)
-    prediction = goals_model.predict(np.array(list(features.values())).reshape(1, -1))
-    st.write(f'Predicted Goals: {prediction[0]}')
+    if st.button('Predict Goals'):
+        features = convert_categorical_features(features, categorical_mapping)
+        scaled_features = goals_scaler.transform(np.array(list(features.values())).reshape(1, -1))
+        prediction = goals_model.predict(scaled_features)
+        st.write(f'Predicted Goals: {prediction[0]}')
 
 elif prediction_type == "Yellow Cards Prediction🟡":
     st.header('Yellow Cards Prediction🟡')
@@ -74,9 +94,11 @@ elif prediction_type == "Yellow Cards Prediction🟡":
         'Fouls_Comitted': st.number_input('Fouls Committed', min_value=0.0),
         'Tackles': st.number_input('Tackles', min_value=0.0)
     }
-    features = convert_categorical_features(features, categorical_mapping)
-    prediction = yellow_cards_model.predict(np.array(list(features.values())).reshape(1, -1))
-    st.write(f'Predicted Yellow Cards: {prediction[0]}')
+    if st.button('Predict Yellow Cards'):
+        features = convert_categorical_features(features, categorical_mapping)
+        scaled_features = yellow_cards_scaler.transform(np.array(list(features.values())).reshape(1, -1))
+        prediction = yellow_cards_model.predict(scaled_features)
+        st.write(f'Predicted Yellow Cards: {prediction[0]}')
 
 elif prediction_type == "Transfer Market Value Prediction💸":
     st.header('Transfer Market Value Prediction💸')
@@ -90,9 +112,11 @@ elif prediction_type == "Transfer Market Value Prediction💸":
         'PKatt': st.number_input('Penalty Kicks Attempted', min_value=0.0),
         'highest_market_value_in_eur': st.number_input('Highest Market Value in EUR', min_value=0.0)
     }
-    features = convert_categorical_features(features, categorical_mapping)
-    prediction = market_value_model.predict(np.array(list(features.values())).reshape(1, -1))
-    st.write(f'Predicted Market Value: {prediction[0]} EUR')
+    if st.button('Predict Market Value'):
+        features = convert_categorical_features(features, categorical_mapping)
+        scaled_features = market_value_scaler.transform(np.array(list(features.values())).reshape(1, -1))
+        prediction = market_value_model.predict(scaled_features)
+        st.write(f'Predicted Market Value: {prediction[0]/1000000} M EUR')
 
 elif prediction_type == "Assist Prediction🤝":
     st.header('Assist Prediction🤝')
@@ -105,9 +129,11 @@ elif prediction_type == "Assist Prediction🤝":
         'GoalCreatingAction': st.number_input('Goal Creating Action', min_value=0.0),
         'Key_Passes': st.number_input('Key Passes', min_value=0.0)
     }
-    features = convert_categorical_features(features, categorical_mapping)
-    prediction = assist_model.predict(np.array(list(features.values())).reshape(1, -1))
-    st.write(f'Predicted Assists: {prediction[0]}')
+    if st.button('Predict Assists'):
+        features = convert_categorical_features(features, categorical_mapping)
+        scaled_features = assist_scaler.transform(np.array(list(features.values())).reshape(1, -1))
+        prediction = assist_model.predict(scaled_features)
+        st.write(f'Predicted Assists: {prediction[0]}')
 
 elif prediction_type == "Injury Prediction🩹":
     st.header('Injury Prediction🩹')
@@ -119,6 +145,8 @@ elif prediction_type == "Injury Prediction🩹":
         'Training_Intensity': st.number_input('Training Intensity', min_value=0.0),
         'Recovery_Time': st.number_input('Recovery Time (days)', min_value=0)
     }
-    prediction = injury_model.predict(np.array(list(features.values())).reshape(1, -1))
-    st.write(f'Predicted Injury Probability: {prediction[0]}')
+    if st.button('Predict Injury'):
+        prediction = injury_model.predict(np.array(list(features.values())).reshape(1, -1))
+        st.write(f'Predicted Injury Probability: {prediction[0]}')
+
 
